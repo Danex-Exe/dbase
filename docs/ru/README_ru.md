@@ -7,7 +7,7 @@
 
 ## Установка
 ```bash
-pip install git+https://DanexExe/dbase.git
+pip install git+https://Danex-Exe/dbase.git
 ```
 
 ## Использование
