@@ -25,14 +25,13 @@ class DataBase:
                 raise InvalidExtensionError("ext", self.ALLOWED_EXTENSIONS)
 
         self._extension = ext
-
         self.is_encrypted = ext == '.dbase'
         self.is_temp = name == ":temp:"
 
         if not self.is_temp:
             self.file_exists = os.path.exists(name)
             self.log(str(self.file_exists))
-            if not self.is_encrypted:
+            if not self.is_encrypted and self.file_exists:
                 with open(self.name, "r") as f:
                     self._data = json.load(f)
         else:
@@ -60,6 +59,8 @@ class DataBase:
             with open(self.name, "w") as f:
                 json.dump({} if self._extension == '.json' else '', f)
             self.log(f"Created database: {self.name}")
+
+        self.file_exists = True
 
     def open(self, key_file: str = "SECURITY_KEY.key"):
         if not self.is_encrypted:
@@ -155,6 +156,7 @@ class DataBase:
                 self.log("Deleted security key")
 
         self._data = {}
+        self.file_exists = False
 
     def read(self) -> Union[str, Dict]:
         if self.is_encrypted:

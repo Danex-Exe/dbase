@@ -5,6 +5,7 @@ __pycache__/
 *.log
 logs/
 .venv/
+.idea/
 env/
 dist/
 build/
