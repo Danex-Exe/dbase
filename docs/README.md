@@ -146,7 +146,7 @@ classDiagram
 ---
 
 ## 📜 License
-Free for non-commercial use - See [LICENSE](.LICENSE) for details. Commercial use requires explicit permission.
+Free for non-commercial use - See [LICENSE](../LICENSE) for details. Commercial use requires explicit permission.
 
 ---
 
