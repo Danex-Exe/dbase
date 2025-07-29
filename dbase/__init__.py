@@ -3,7 +3,7 @@ from .logger import Logger
 from .errors import *
 from .security import SecurityManager
 
-__version__ = "2.0.4"
+__version__ = "2.0.5"
 __all__ = ['DataBase']
 
 class DataBase:
