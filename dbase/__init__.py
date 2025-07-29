@@ -3,13 +3,13 @@ from .logger import Logger
 from .errors import *
 from .security import SecurityManager
 
-__version__ = "2.0.3"
+__version__ = "2.0.4"
 __all__ = ['DataBase']
 
 class DataBase:
     ALLOWED_EXTENSIONS = ('.txt', '.json', '.dbase')
 
-    def __init__(self, name: str, show_logs: bool = True):
+    def __init__(self, name: str, show_logs: bool = True) -> None:
         self.name = name
         self.show_logs = show_logs
         self.logger = Logger(title="DBASE", log_file="dbase.log")
@@ -37,7 +37,7 @@ class DataBase:
         else:
             self.file_exists = False
 
-    def create(self, password: Optional[str] = None):
+    def create(self, password: Optional[str] = None) -> None:
         if self.name == ":temp:":
             raise TempDatabaseCreatedError('create')
 
@@ -62,7 +62,7 @@ class DataBase:
 
         self.file_exists = True
 
-    def open(self, key_file: str = "SECURITY_KEY.key"):
+    def open(self, key_file: str = "SECURITY_KEY.key") -> None:
         if not self.is_encrypted:
             raise OperationNotAllowedError("open", "Only encrypted databases require opening")
 
@@ -76,7 +76,7 @@ class DataBase:
         except Exception as e:
             raise SecurityError(f"Failed to open database: {str(e)}")
 
-    def set(self, data: list = None, key: Optional[str] = None, value: Any = None):
+    def set(self, data: list = None, key: Optional[str] = None, value: Any = None) -> None:
         self._check_access()
 
         if data:
@@ -89,13 +89,13 @@ class DataBase:
         if self.is_encrypted:
             self._save_data()
 
-    def _set_single(self, key: str, value: Any):
+    def _set_single(self, key: str, value: Any) -> None:
         if isinstance(value, str) and value.startswith("#"):
             value = self.hash(value[1:])
         self._data[key] = value
         self.log(f"Set key: {key}")
 
-    def setdefault(self, data: list = None,  key: str = None, value: Any = None):
+    def setdefault(self, data: list = None,  key: str = None, value: Any = None) -> None:
         self._check_access()
 
         if data:
@@ -105,6 +105,7 @@ class DataBase:
                     self.set(key=k, value=v)
 
         if key is None:
+            if data is not None: return
             raise DataError("setdefault", "There must be a key")
 
         if key not in self._data:
@@ -117,7 +118,7 @@ class DataBase:
         self._check_access()
         return self._data.get(key, default_response)
 
-    def rename(self, last_key: str, new_key: str):
+    def rename(self, last_key: str, new_key: str) -> None:
         self._check_access()
 
         if last_key not in self._data:
@@ -129,7 +130,7 @@ class DataBase:
         if self.is_encrypted:
             self._save_data()
 
-    def remove(self, key: str):
+    def remove(self, key: str) -> None:
         self._check_access()
         if key not in self._data:
             raise KeyNotFoundError(f"Key not found: {key}")
@@ -140,7 +141,7 @@ class DataBase:
         if self.is_encrypted:
             self._save_data()
 
-    def delete(self, password: str = None):
+    def delete(self, password: str = None) -> None:
         if self.is_encrypted:
             if not password:
                 raise ValueError("Password is required for encrypted databases")
@@ -191,7 +192,7 @@ class DataBase:
         import hashlib
         return hashlib.sha256(value.encode()).hexdigest()
 
-    def _save_data(self):
+    def _save_data(self) -> None:
         if not self.is_temp:
             if self.is_encrypted:
                 encrypted_data = SecurityManager.encrypt(self._data, self._encryption_key)
@@ -203,12 +204,12 @@ class DataBase:
     def _verify_password(self, password: str) -> bool:
         return self._password_hash or self.get('$password') == self.hash(password)
 
-    def _check_access(self):
+    def _check_access(self) -> None:
         if self.is_encrypted and not self._opened:
             raise OperationNotAllowedError('check_access', "Database not opened")
         if not self.file_exists and not self.is_temp:
             raise OperationNotAllowedError("check_access", "Database not created")
 
-    def log(self, message: str):
+    def log(self, message: str) -> None:
         if self.show_logs:
             self.logger.info(message)
