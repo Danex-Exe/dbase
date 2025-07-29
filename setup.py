@@ -8,5 +8,6 @@ setup(
     author_email='dan.d.alekseev@gmail.com',
     version="2.0.1",
     packages=find_packages(),
+    install_requires=["cryptography"],
     python_requires=">=3.8",
 )
