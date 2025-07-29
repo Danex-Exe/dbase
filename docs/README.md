@@ -161,5 +161,5 @@ Contributions are welcome! Please follow these steps:
 
 ## 📧 Contact
 **Daniil Alekseev**  
-Email: [dan.d.alekseev@gmail.com](mailto:dan.d.alekseev@gmail.com)  
+Email: [dan.d.alekseev@gmail.com](mailto:sevenaspects.mail@gmail.com)  
 GitHub: [@Danex-Exe](https://github.com/Danex-Exe)
