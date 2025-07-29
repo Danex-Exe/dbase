@@ -164,8 +164,3 @@ Contributions are welcome! Please follow these steps:
 **Daniil Alekseev**  
 Email: [dan.d.alekseev@gmail.com](mailto:dan.d.alekseev@gmail.com)  
 GitHub: [@Danex-Exe](https://github.com/Danex-Exe)
-
----
-
-### GitHub Project Description
-**DBase** - Secure Python database library with encryption support. Manage text, JSON, and encrypted databases with built-in logging and comprehensive error handling. Features military-grade encryption, temporary databases, and atomic operations. Perfect for applications requiring secure local data storage.
