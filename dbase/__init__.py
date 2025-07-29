@@ -98,17 +98,17 @@ class DataBase:
     def setdefault(self, data: list = None,  key: str = None, value: Any = None):
         self._check_access()
 
-        if key is None:
-            raise DataError("setdefault", "There must be a key")
-
-        if key not in self._data:
-            self.set(key=key, value=value)
-
         if data:
             for i in data:
                 k, v = i
                 if k not in self._data:
                     self.set(key=k, value=v)
+
+        if key is None:
+            raise DataError("setdefault", "There must be a key")
+
+        if key not in self._data:
+            self.set(key=key, value=value)
 
         if self.is_encrypted:
             self._save_data()
