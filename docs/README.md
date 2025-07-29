@@ -1,77 +1,171 @@
-<h1 align="center">Documentation</h1>
+## 🗃️ DBase - Secure Database Library with Encryption
+
 <div align="center">
     <a href="README.md">English</a>
     <a href="ru/README_ru.md">Русский</a>
     <br><br>
 </div>
 
-## Installation
+DBase is a Python library for simplified file management and synchronization with built-in encryption support. It provides an intuitive interface for creating, reading, writing, and deleting databases while maintaining security through Fernet symmetric encryption.
+
+---
+
+## ✨ Features
+- **Multiple Database Formats**: Support for `.txt`, `.json`, and encrypted `.dbase` files
+- **Military-Grade Encryption**: AES-128 CBC mode via Fernet for sensitive data
+- **Comprehensive Error Handling**: 30+ specialized error classes for all scenarios
+- **Logging System**: Customizable logger with file rotation and formatting
+- **Temporary Databases**: In-memory databases for ephemeral operations
+- **Password Protection**: Secure password hashing with SHA-256
+- **Atomic Operations**: Safe data modification with automatic backups
+
+---
+
+## ⚙️ Installation
 ```bash
 pip install git+https://github.com/Danex-Exe/dbase.git
 ```
 
-## Usage
-### .txt (text handling)
+---
+
+## 🚀 Quick Start
+### Basic Text Database
 ```python
-from dbase import DataBase # Import the module
+from dbase import DataBase
 
-db = DataBase('test.txt') # Initialize the database
-db.create() # Create the database (ignored if already exists)
-
-db.write('123') # Write data
-data = db.read() # Read data
-print(data) # Output data
+db = DataBase('data.txt')
+db.create()
+db.write('Hello World!')
+print(db.read())  # Output: Hello World!
+db.delete()
 ```
 
-### .txt, .json (JSON handling)
+### JSON Database
 ```python
-from dbase import DataBase # Import the module
-
-db = DataBase('test.txt') # Call the function (.json can be used instead of .txt)
-db.create() # Create the database (ignored if already exists)
-
-db.set(data=[
-      ('a', '123'),
-      ('b', '456')
-]) # Write multiple variables in one call
-db.set(key='a', value='123') # Write a single element
-db.set('b', '456') # Write a second element
-# it's possible to combine writing multiple and single elements
-
-db.setdefault(data=[], key='', value='') # Works the same way, but only if the variable(s) don't exist
-
-db.get(key='a') # Returns the value of the variable, or None if it doesn't exist
-
-db.rename(last_key='a', new_key='c') # Renames a variable
-
-db.remove(key='c') # Deletes a variable
-
-db.delete() # Deletes the database
+db = DataBase('config.json')
+db.create()
+db.set(key='theme', value='dark')
+db.set(data=[('timeout', 30), ('notifications', True)])
+print(db.get('theme'))  # Output: dark
+db.delete()
 ```
 
-
-### .dbase (encrypted database)
+### Encrypted Database (.dbase)
 ```python
-from dbase import DataBase # Import the module
+db = DataBase('secrets.dbase')
+db.create(password="MyStrongP@ssw0rd")
+db.open()  # Creates secure session
 
-db = DataBase('test.dbase') # Call the function (.json can be used instead of .txt)
-db.create(password="SECRET_PASSWORD") # Create the database (ignored if already exists), the password is hashed and stored in the database
-db.open(key='SECURITY_KEY.key') # Creates a secure session, enabling interaction with the database. Other functions won't work without this.
+db.set(key='api_key', value='#sensitive_data')  # Auto-hashes values starting with #
+print(db.get('api_key'))  # Returns hashed value
 
-# All the aforementioned JSON functions also apply to this database, but here they are automatically encoded
-# The .read() and .write() functions do not work with .dbase
-db.delete(password="SECRET_PASSWORD") # Checks the database password and deletes it if it matches
+db.delete(password="MyStrongP@ssw0rd")
 ```
 
-### Logger configuration
+---
+
+## 📝 Logger Configuration
 ```python
-from dbase import DataBase # Import the module
-
-db = DataBase('test.txt') # Initialize the database
-
-db.logger.title = 'Logger title'
-db.logger.log_file = 'Path to the log file'
-db.logger.time_format = 'Time format'
-db.logger.format = 'Log format'
-db.logger.log_dir = 'Logs directory'
+db = DataBase('app.log')
+db.logger.title = 'APP_LOGGER'
+db.logger.log_file = 'application.log'
+db.logger.time_format = '%Y-%m-%d %H:%M:%S'
+db.logger.format = '[{time}] [{level}] - {message}'
+db.logger.log_dir = 'app_logs'
 ```
+
+---
+
+## 🧪 Testing
+Run tests with pytest:
+```bash
+pytest tests/
+```
+
+Test coverage includes:
+- Database creation/deletion
+- Encryption/decryption workflows
+- Error handling scenarios
+- Temporary database operations
+- Cross-format compatibility
+
+---
+
+## 🔮 Future Roadmap
+1. **Database Refactor**: 
+   - Support for external connections
+   - Client-server architecture
+   - SQL-like query interface
+
+2. **Enhanced Error Handling**:
+   - Contextual error messages
+   - Recovery mechanisms
+   - Detailed error codes
+
+3. **Logger Improvements**:
+   - Asynchronous logging
+   - Compression/rotation
+   - Cloud integration
+
+4. **Additional Features**:
+   - Role-based access control
+   - Audit trails
+   - Schema validation
+
+---
+
+## ⚠️ Error Hierarchy
+```mermaid
+classDiagram
+    DBaseError <|-- OperationError
+    DBaseError <|-- FileSystemError
+    DBaseError <|-- DataError
+    DBaseError <|-- StateError
+    DBaseError <|-- CriticalSystemError
+    
+    OperationError <|-- InvalidExtensionError
+    OperationError <|-- KeyNotFoundError
+    OperationError <|-- SecurityError
+    
+    SecurityError <|-- PasswordVerificationError
+    SecurityError <|-- EncryptionError
+    SecurityError <|-- OperationNotAllowedError
+    
+    FileSystemError <|-- FileNotFoundError
+    FileSystemError <|-- FilePermissionError
+    FileSystemError <|-- FileCorruptionError
+    
+    StateError <|-- DatabaseNotOpenError
+    StateError <|-- DatabaseNotCreatedError
+    StateError <|-- TempDatabaseCreatedError
+    
+    CriticalSystemError <|-- DiskFullError
+    CriticalSystemError <|-- MemoryAllocationError
+```
+
+---
+
+## 📜 License
+Free for non-commercial use - See [LICENSE](LICENSE) for details. Commercial use requires explicit permission.
+
+---
+
+## 🤝 Contributing
+Contributions are welcome! Please follow these steps:
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📧 Contact
+**Daniil Alekseev**  
+Email: [dan.d.alekseev@gmail.com](mailto:dan.d.alekseev@gmail.com)  
+GitHub: [@Danex-Exe](https://github.com/Danex-Exe)
+
+---
+
+### GitHub Project Description
+**DBase** - Secure Python database library with encryption support. Manage text, JSON, and encrypted databases with built-in logging and comprehensive error handling. Features military-grade encryption, temporary databases, and atomic operations. Perfect for applications requiring secure local data storage.
