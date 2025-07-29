@@ -3,8 +3,8 @@ from .logger import Logger
 from .errors import *
 from .security import SecurityManager
 
-__version__ = "2.0.2"
-__all__ = ['Logger', 'DataBase']
+__version__ = "2.0.3"
+__all__ = ['DataBase']
 
 class DataBase:
     ALLOWED_EXTENSIONS = ('.txt', '.json', '.dbase')
