@@ -94,6 +94,7 @@ class DataBase:
             value = self.hash(value[1:])
         self._data[key] = value
         self.log(f"Set key: {key}")
+        self._save_data()
 
     def setdefault(self, data: list = None,  key: str = None, value: Any = None) -> None:
         self._check_access()
