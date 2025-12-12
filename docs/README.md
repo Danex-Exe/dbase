@@ -1,6 +1,3 @@
-```markdown
-# DBase Documentation
-
 Welcome to DBase documentation. For the latest documentation, visit our [GitHub repository](https://github.com/Danex-Exe/dbase).
 
 ## Quick Links
