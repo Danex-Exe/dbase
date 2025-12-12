@@ -1,4 +1,4 @@
-```markdown
+
 # Contributing to DBase
 
 Thank you for considering contributing to DBase! This document provides guidelines and instructions for contributors.
