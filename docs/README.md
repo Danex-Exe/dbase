@@ -148,4 +148,3 @@ MIT License - see LICENSE file for details.
 ## Support
 
 This project is maintained by Daniil Alekseev. For support, please open an issue on GitHub.
-```
