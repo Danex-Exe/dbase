@@ -30,7 +30,6 @@ class DataBase:
         if file_path is None and not is_temp:
             raise ValueError(get_message('file_path_required_for_non_temp'))
         
-        # Используем object.__setattr__ для обхода нашего __setattr__
         object.__setattr__(self, '_file_path', file_path)
         object.__setattr__(self, '_show_logs', show_logs)
         object.__setattr__(self, '_is_temp', is_temp)
@@ -103,7 +102,6 @@ class DataBase:
 
     def db_create_file(self) -> None:
         if self._is_temp:
-            # Используем object.__setattr__ для обхода защиты
             file = NamedTemporaryFile(mode='w+', delete=False, suffix='.json')
             object.__setattr__(self, '_file', file)
             object.__setattr__(self, '_file_path', file.name)
@@ -218,35 +216,25 @@ class DataBase:
         if not isinstance(name, str):
             raise TypeError(get_message('invalid_attribute_name'))
 
-        # Разрешаем изменение защищенных атрибутов только внутри методов класса
-        # Проверяем, вызван ли из метода класса (по стеку вызовов)
         import inspect
         
-        # Получаем текущий фрейм
         current_frame = inspect.currentframe()
         
-        # Проверяем, вызывается ли из метода этого класса
         is_from_class_method = False
         if current_frame:
-            # Получаем предыдущий фрейм (который вызвал __setattr__)
             caller_frame = current_frame.f_back
             if caller_frame:
-                # Получаем имя метода, который вызвал __setattr__
                 method_name = caller_frame.f_code.co_name
-                # Получаем объект self из локальных переменных вызывающего фрейма
                 caller_self = caller_frame.f_locals.get('self')
                 if caller_self is self and method_name != '__init__':
                     is_from_class_method = True
         
-        # Если это защищенный атрибут и вызывается не из метода класса, запрещаем
         if name in self._BAN_NAMES and hasattr(self, name) and not is_from_class_method:
             raise AttributeError(get_message('protected_attribute_modification'))
         
-        # Если это не защищенный атрибут, сохраняем данные
         old_value = getattr(self, name, None) if name in self._BAN_NAMES else None
         super().__setattr__(name, value)
         
-        # Сохраняем только если это не защищенный атрибут или значение изменилось
         if name not in self._BAN_NAMES:
             self._save_data()
 
