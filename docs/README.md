@@ -5,7 +5,7 @@ Welcome to DBase documentation. For the latest documentation, visit our [GitHub 
 - [Full Documentation](https://github.com/Danex-Exe/dbase#readme)
 - [API Reference](#api-reference)
 - [Examples](#examples)
-- [Changelog](https://github.com/Danex-Exe/dbase/blob/main/CHANGELOG.md)
+- [Changelog](https://github.com/Danex-Exe/dbase/blob/main/docs/CHANGELOG.md)
 
 ## Installation
 
