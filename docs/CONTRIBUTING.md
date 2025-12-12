@@ -170,4 +170,3 @@ If you have questions about contributing, please:
 3. Create a new issue for discussion
 
 Thank you for helping improve DBase!
-```
