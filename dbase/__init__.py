@@ -10,7 +10,7 @@ from .messages import get_message
 
 
 __all__ = ['DataBase', 'Logger']
-__version__ = '3.0.0'
+__version__ = '3.0.1'
 
 
 class DataBase:
