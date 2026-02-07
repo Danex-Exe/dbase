@@ -10,7 +10,7 @@ Welcome to DBase documentation. For the latest documentation, visit our [GitHub 
 ## Installation
 
 ```bash
-pip install dbase
+pip install "git+https://github.com/Danex-Exe/dbase.git@9c5dff4"
 ```
 
 ## Basic Example
