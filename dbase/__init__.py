@@ -74,7 +74,7 @@ class DataBase:
                 json.dumps(value)
                 data[key] = value
             except TypeError:
-                self._log(f"Skipped non-JSON value for key '{key}'", 'WARNING')
+                continue
         return data
 
     def _encrypt_text(self, text: str) -> str:
@@ -276,11 +276,10 @@ class DataBase:
     def __getattr__(self, name: str):
         raise AttributeError(get_message('attribute_not_found').format(name=name))
 
-    def __getattribute__(self, name: str):
-        return super().__getattribute__(name)
-
     def __dir__(self) -> list[str]:
-        return sorted(self._public_data_keys())
+        attrs = set(super().__dir__())
+        attrs.update(self._public_data_keys())
+        return sorted(attrs)
 
     def __getitem__(self, key: str):
         if not isinstance(key, str):
@@ -358,8 +357,8 @@ class DataBase:
         return new_db
 
     def __hash__(self) -> int:
-        data_tuple = tuple(sorted(self.items()))
-        return hash(data_tuple)
+        encoded = json.dumps(self._collect_public_data(), sort_keys=True, ensure_ascii=False)
+        return hash(encoded)
 
     def __eq__(self, other) -> bool:
         if isinstance(other, DataBase):
