@@ -126,6 +126,26 @@ cache.timestamp = "2024-01-01T12:00:00"
    db = DataBase("data.json", show_logs=True)
    ```
 
+
+## Encryption (simple)
+
+```python
+from dbase import DataBase
+
+secure_db = DataBase(file_path="secure.json", encryption_key="my-secret-key")
+secure_db.api_token = "token-123"
+```
+
+When `encryption_key` is provided, payload is stored in encrypted form using a lightweight XOR+Base64 scheme (sufficient for basic obfuscation, not for high-security storage).
+
+## Docker
+
+```bash
+docker compose up --build
+```
+
+This runs the test suite inside a container.
+
 ## Troubleshooting
 
 ### Common Issues

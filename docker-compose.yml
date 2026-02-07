@@ -1,0 +1,9 @@
+services:
+  dbase:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: pytest -q

@@ -117,11 +117,7 @@ config.local.json
 
 # next updates
 .pre-commit-config.yaml
-.dockerignore
 config.example.yaml
-Dockerfile
-.github/
 resources/
-tests/
 dbase/errors.py
 dbase/security.py
