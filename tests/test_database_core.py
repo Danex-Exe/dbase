@@ -62,3 +62,31 @@ def test_save_closes_file_before_replace(tmp_path, monkeypatch):
     monkeypatch.setattr(os, 'replace', checked_replace)
     db.key = 'value'
     assert db.key == 'value'
+
+
+def test_save_retries_on_permission_error(tmp_path, monkeypatch):
+    path = tmp_path / 'retry.json'
+    db = DataBase(str(path), show_logs=False)
+
+    calls = {'count': 0}
+    original_replace = os.replace
+
+    def flaky_replace(src, dst):
+        calls['count'] += 1
+        if calls['count'] < 3:
+            raise PermissionError('locked')
+        return original_replace(src, dst)
+
+    monkeypatch.setattr(os, 'replace', flaky_replace)
+    db.value = 1
+    assert db.value == 1
+    assert calls['count'] == 3
+
+
+def test_close_is_idempotent(tmp_path):
+    path = tmp_path / 'close.json'
+    db = DataBase(str(path), show_logs=False)
+    db.value = 'ok'
+    db.close()
+    db.close()
+    assert path.exists()

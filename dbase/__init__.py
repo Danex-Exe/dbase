@@ -3,6 +3,7 @@ from __future__ import annotations
 import base64
 import json
 import os
+import time
 from tempfile import NamedTemporaryFile
 from typing import Any
 
@@ -202,6 +203,19 @@ class DataBase:
         except Exception:
             return False
 
+
+    def _replace_with_retry(self, src: str, dst: str, retries: int = 8, delay: float = 0.05) -> None:
+        last_error = None
+        for _ in range(retries):
+            try:
+                os.replace(src, dst)
+                return
+            except PermissionError as error:
+                last_error = error
+                time.sleep(delay)
+        if last_error is not None:
+            raise last_error
+
     def _save_data(self) -> None:
         if self._file is None or self._file_path is None:
             return
@@ -219,7 +233,7 @@ class DataBase:
             if self._file and not self._file.closed:
                 self._file.close()
 
-            os.replace(tmp_path, self._file_path)
+            self._replace_with_retry(tmp_path, self._file_path)
             object.__setattr__(self, '_file', open(self._file_path, 'r+', encoding='utf-8'))
         except Exception as error:
             self._log(f"{get_message('save_data_error')}: {str(error)}", 'ERROR')
@@ -235,9 +249,11 @@ class DataBase:
                     pass
 
     def close(self) -> None:
-        self._save_data()
+        if self._file is not None:
+            self._save_data()
         if self._file and not self._file.closed:
             self._file.close()
+        object.__setattr__(self, '_file', None)
         if self._is_temp and self._auto_cleanup_temp and self._file_path:
             try:
                 if os.path.exists(self._file_path):
