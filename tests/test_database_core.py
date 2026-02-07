@@ -47,3 +47,18 @@ def test_temp_file_cleanup():
         db_key_path = db.get_file_path()
         assert os.path.exists(db_key_path)
     assert not os.path.exists(db_key_path)
+
+
+def test_save_closes_file_before_replace(tmp_path, monkeypatch):
+    path = tmp_path / 'win-safe.json'
+    db = DataBase(str(path), show_logs=False)
+
+    original_replace = os.replace
+
+    def checked_replace(src, dst):
+        assert db.get_file().closed is True
+        return original_replace(src, dst)
+
+    monkeypatch.setattr(os, 'replace', checked_replace)
+    db.key = 'value'
+    assert db.key == 'value'

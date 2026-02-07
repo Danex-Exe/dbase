@@ -208,21 +208,31 @@ class DataBase:
 
         data = self._collect_public_data()
 
+        tmp_path = f"{self._file_path}.tmp"
         try:
             payload = self._encode_payload(data)
-            tmp_path = f"{self._file_path}.tmp"
             with open(tmp_path, 'w', encoding='utf-8') as tmp_file:
                 json.dump(payload, tmp_file, indent=2, ensure_ascii=False)
                 tmp_file.flush()
                 os.fsync(tmp_file.fileno())
 
-            os.replace(tmp_path, self._file_path)
-
             if self._file and not self._file.closed:
                 self._file.close()
+
+            os.replace(tmp_path, self._file_path)
             object.__setattr__(self, '_file', open(self._file_path, 'r+', encoding='utf-8'))
         except Exception as error:
             self._log(f"{get_message('save_data_error')}: {str(error)}", 'ERROR')
+            if os.path.exists(tmp_path):
+                try:
+                    os.remove(tmp_path)
+                except Exception:
+                    pass
+            if self._file is None or self._file.closed:
+                try:
+                    object.__setattr__(self, '_file', open(self._file_path, 'r+', encoding='utf-8'))
+                except Exception:
+                    pass
 
     def close(self) -> None:
         self._save_data()
