@@ -51,7 +51,12 @@ class _MessageManager:
                     'invalid_item_type': 'Item must be a string',
                     'invalid_docstring_type': 'Docstring must be a string',
                     'language_not_supported': 'Language not supported',
-                    'message_not_found': 'Message not found'
+                    'message_not_found': 'Message not found',
+                    'invalid_encryption_key_type': 'Encryption key must be a string',
+                    'invalid_auto_cleanup_temp_type': 'Auto cleanup flag must be a boolean value',
+                    'encryption_key_required': 'Encryption key is required to read encrypted data',
+                    'invalid_encrypted_payload': 'Encrypted payload format is invalid',
+                    'decrypt_data_error': 'Error decrypting data'
                 },
                 'ru': {
                     'test': 'тест!',
@@ -77,7 +82,12 @@ class _MessageManager:
                     'invalid_item_type': 'Элемент должен быть строкой',
                     'invalid_docstring_type': 'Строка документации должна быть строкой',
                     'language_not_supported': 'Язык не поддерживается',
-                    'message_not_found': 'Сообщение не найдено'
+                    'message_not_found': 'Сообщение не найдено',
+                    'invalid_encryption_key_type': 'Ключ шифрования должен быть строкой',
+                    'invalid_auto_cleanup_temp_type': 'Флаг автоочистки должен быть логическим значением',
+                    'encryption_key_required': 'Для чтения зашифрованных данных требуется ключ шифрования',
+                    'invalid_encrypted_payload': 'Неверный формат зашифрованного содержимого',
+                    'decrypt_data_error': 'Ошибка расшифровки данных'
                 }
             }
             
@@ -115,7 +125,12 @@ class _MessageManager:
                     'invalid_item_type': 'Item must be a string',
                     'invalid_docstring_type': 'Docstring must be a string',
                     'language_not_supported': 'Language not supported',
-                    'message_not_found': 'Message not found'
+                    'message_not_found': 'Message not found',
+                    'invalid_encryption_key_type': 'Encryption key must be a string',
+                    'invalid_auto_cleanup_temp_type': 'Auto cleanup flag must be a boolean value',
+                    'encryption_key_required': 'Encryption key is required to read encrypted data',
+                    'invalid_encrypted_payload': 'Encrypted payload format is invalid',
+                    'decrypt_data_error': 'Error decrypting data'
                 },
                 'ru': {
                     'test': 'тест!',
@@ -141,7 +156,12 @@ class _MessageManager:
                     'invalid_item_type': 'Элемент должен быть строкой',
                     'invalid_docstring_type': 'Строка документации должна быть строкой',
                     'language_not_supported': 'Язык не поддерживается',
-                    'message_not_found': 'Сообщение не найдено'
+                    'message_not_found': 'Сообщение не найдено',
+                    'invalid_encryption_key_type': 'Ключ шифрования должен быть строкой',
+                    'invalid_auto_cleanup_temp_type': 'Флаг автоочистки должен быть логическим значением',
+                    'encryption_key_required': 'Для чтения зашифрованных данных требуется ключ шифрования',
+                    'invalid_encrypted_payload': 'Неверный формат зашифрованного содержимого',
+                    'decrypt_data_error': 'Ошибка расшифровки данных'
                 }
             }
         except json.JSONDecodeError as e:
