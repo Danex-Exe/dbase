@@ -28,10 +28,10 @@
 
 > Поддерживаемые версии Python: **старше 3.8** (Python 3.9+).
 
-### 1) Установка из PyPI
+### 1) Установка через GitHub (git+https)
 
 ```bash
-pip install dbase
+pip install "git+https://github.com/Danex-Exe/dbase.git"
 ```
 
 Проверка, что модуль установлен:
@@ -40,7 +40,7 @@ pip install dbase
 python -c "from dbase import DataBase; print(DataBase)"
 ```
 
-### 2) Установка для разработки (из исходников)
+### 2) Установка для разработки (локальный clone)
 
 ```bash
 git clone https://github.com/Danex-Exe/dbase.git
@@ -59,7 +59,7 @@ python -m venv .venv
 source .venv/bin/activate   # Linux/macOS
 # .venv\Scripts\activate   # Windows PowerShell
 pip install --upgrade pip
-pip install dbase
+pip install "git+https://github.com/Danex-Exe/dbase.git"
 ```
 
 ---
